@@ -7,6 +7,7 @@ public class Hacker : MonoBehaviour
 {
     // Member Variables:
     int level;
+    string password;
 
     enum Screen { MainMenu, Password, Win };
     Screen currentScreen;
@@ -29,16 +30,20 @@ public class Hacker : MonoBehaviour
         Terminal.WriteLine("");
         Terminal.WriteLine("Escribe tu opcion:");
     }
-
+    
     void OnUserInput(string input)
     {
         if (input == "menu")
         {
             ShowMainMenu();
-
-        } else if (currentScreen == Screen.MainMenu)
+        }
+        else if (currentScreen == Screen.MainMenu)
         {
             RunMainMenu(input);
+        }
+        else if (currentScreen == Screen.Password)
+        {
+            CheckPassword(input);
         }
     }
 
@@ -48,12 +53,14 @@ public class Hacker : MonoBehaviour
         {
             // ir a dificultad 1
             level = 1;
+            password = "pacoculiao";
             StartGame();
         }
         else if (input == "2")
         {
             // ir a dificultad 2
             level = 2;
+            password = "sontodosnarcos";
             StartGame();
         }
         else if (input == "007")
@@ -72,6 +79,27 @@ public class Hacker : MonoBehaviour
 
         Terminal.WriteLine("Seguridad nivel " + level);
         Terminal.WriteLine("Ingresa el password:");
+    }
+
+    void CheckPassword(string input)
+    {
+        if (input == password)
+        {
+            ShowWinScreen();
+        }
+        else
+        {
+            Terminal.WriteLine("Password incorrecto! Intenta otra vez.");
+        }
+    }
+
+    void ShowWinScreen()
+    {
+        currentScreen = Screen.Win;
+        Terminal.ClearScreen();
+        Terminal.WriteLine("Password correcto.");
+        Terminal.WriteLine("Bienvenido al nivel de seguridad " + level);
+        Terminal.WriteLine("Escribe menu para volver al menu inicial");
     }
 
     // Update is called once per frame
